@@ -1,20 +1,24 @@
 'use strict'
+
 app =
   findByName: ->
+    self = this
     @store.findByName $(".search-key").val(), (employees) ->
-      $(".employee-list").html @employeeLiTpl employees
+      $(".employee-list").html self.employeeLiTpl employees
 
   initialize: ->
-    @store = new MemoryStore ->
-      @renderHomeView()
+    self = this
+    self.store = new MemoryStore ->
+      self.renderHomeView()
 
-    $(".search-key").on "keyup", ($.proxy @findByName, @)
-    @homeTpl = Handlebars.compile $("#home-tpl").html()
-    @employeeLiTpl = Handlebars.compile $("#employee-li-tpl").html()
+    $(".search-key").on "keyup", ($.proxy self.findByName, self)
+    self.homeTpl = Handlebars.compile $("#home-tpl").html()
+    self.employeeLiTpl = Handlebars.compile $("#employee-li-tpl").html()
 
   renderHomeView: ->
-    $("body").html @homeTpl()
-    $(".search-key").on "keyup", ($.proxy @findByName, @)
+    self = this
+    $("body").html self.homeTpl()
+    $(".search-key").on "keyup", ($.proxy self.findByName, self)
 
   showAlert: (message, title) ->
     if navigator.notification

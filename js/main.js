@@ -5,21 +5,27 @@
 
   app = {
     findByName: function() {
+      var self;
+      self = this;
       return this.store.findByName($(".search-key").val(), function(employees) {
-        return $(".employee-list").html(this.employeeLiTpl(employees));
+        return $(".employee-list").html(self.employeeLiTpl(employees));
       });
     },
     initialize: function() {
-      this.store = new MemoryStore(function() {
-        return this.renderHomeView();
+      var self;
+      self = this;
+      self.store = new MemoryStore(function() {
+        return self.renderHomeView();
       });
-      $(".search-key").on("keyup", $.proxy(this.findByName, this));
-      this.homeTpl = Handlebars.compile($("#home-tpl").html());
-      return this.employeeLiTpl = Handlebars.compile($("#employee-li-tpl").html());
+      $(".search-key").on("keyup", $.proxy(self.findByName, self));
+      self.homeTpl = Handlebars.compile($("#home-tpl").html());
+      return self.employeeLiTpl = Handlebars.compile($("#employee-li-tpl").html());
     },
     renderHomeView: function() {
-      $("body").html(this.homeTpl());
-      return $(".search-key").on("keyup", $.proxy(this.findByName, this));
+      var self;
+      self = this;
+      $("body").html(self.homeTpl());
+      return $(".search-key").on("keyup", $.proxy(self.findByName, self));
     },
     showAlert: function(message, title) {
       if (navigator.notification) {
