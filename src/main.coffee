@@ -19,6 +19,7 @@ app =
     self = this
     $("body").html self.homeTpl()
     $(".search-key").on "keyup", ($.proxy self.findByName, self)
+    self.showAlert 'loaded'
 
   showAlert: (message, title) ->
     if navigator.notification

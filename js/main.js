@@ -25,7 +25,8 @@
       var self;
       self = this;
       $("body").html(self.homeTpl());
-      return $(".search-key").on("keyup", $.proxy(self.findByName, self));
+      $(".search-key").on("keyup", $.proxy(self.findByName, self));
+      return self.showAlert('loaded');
     },
     showAlert: function(message, title) {
       if (navigator.notification) {
