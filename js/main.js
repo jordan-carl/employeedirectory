@@ -4,18 +4,11 @@
   var app;
 
   app = {
-    findByName: function() {
-      var self;
-      self = this;
-      return this.store.findByName($(".search-key").val(), function(employees) {
-        return $(".employee-list").html(self.employeeLiTpl(employees));
-      });
-    },
     initialize: function() {
       var self;
       self = this;
       self.store = new MemoryStore(function() {
-        return self.renderHomeView();
+        return $('body').html(new HomeView(self.store).render().el);
       });
       $(".search-key").on("keyup", $.proxy(self.findByName, self));
       self.homeTpl = Handlebars.compile($("#home-tpl").html());

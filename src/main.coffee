@@ -1,15 +1,10 @@
 'use strict'
 
 app =
-  findByName: ->
-    self = this
-    @store.findByName $(".search-key").val(), (employees) ->
-      $(".employee-list").html self.employeeLiTpl employees
-
   initialize: ->
     self = this
     self.store = new MemoryStore ->
-      self.renderHomeView()
+      $('body').html new HomeView(self.store).render().el
 
     $(".search-key").on "keyup", ($.proxy self.findByName, self)
     self.homeTpl = Handlebars.compile $("#home-tpl").html()
