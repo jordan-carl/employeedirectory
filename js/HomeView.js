@@ -3,6 +3,11 @@
   var HomeView;
 
   HomeView = function(store) {
+    this.findByName = function() {
+      return store.findByName($('.search-key').val(), function(employees) {
+        return $('.employee-list').html(HomeView.liTemplate(employees));
+      });
+    };
     this.initialize = function() {
       return $('<div/>').on('keyup', '.search-key', this.findByName);
     };

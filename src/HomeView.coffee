@@ -1,4 +1,8 @@
 HomeView = (store) ->
+  @findByName =->
+    store.findByName $('.search-key').val(), (employees) ->
+      $('.employee-list').html HomeView.liTemplate employees
+
   @initialize =->
     $('<div/>').on 'keyup', '.search-key', @findByName
 
