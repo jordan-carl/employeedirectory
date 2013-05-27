@@ -21,13 +21,6 @@
       self.homeTpl = Handlebars.compile($("#home-tpl").html());
       return self.employeeLiTpl = Handlebars.compile($("#employee-li-tpl").html());
     },
-    renderHomeView: function() {
-      var self;
-      self = this;
-      $("body").html(self.homeTpl());
-      $(".search-key").on("keyup", $.proxy(self.findByName, self));
-      return self.showAlert('loaded');
-    },
     showAlert: function(message, title) {
       if (navigator.notification) {
         return navigator.notification.alert(message, null, title, "OK");

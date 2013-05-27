@@ -7,6 +7,9 @@
       return $('<div/>').on('keyup', '.search-key', this.findByName);
     };
     this.liTemplate = Handlebars.compile($('#employee-li-tpl').html());
+    this.render = function() {
+      return this.el.html(HomeView.template());
+    };
     return this.template = Handlebars.compile($('#home-tpl').html());
   };
 
