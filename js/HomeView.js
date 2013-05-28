@@ -17,9 +17,9 @@ HomeView = (function() {
     this.render = function() {
       this.el = $('<div/>');
       this.el.html(HomeView.template());
+      this.el.on('keyup', '.search-key', this.findByName);
       return this;
     };
-    $('<div/>').on('keyup', '.search-key', this.findByName);
   }
 
   return HomeView;

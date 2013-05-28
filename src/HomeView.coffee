@@ -11,6 +11,5 @@ class HomeView
     @render =->
       @el = $ '<div/>'
       @el.html HomeView.template()
+      @el.on 'keyup', '.search-key', @findByName
       @
-
-    $('<div/>').on 'keyup', '.search-key', @findByName
