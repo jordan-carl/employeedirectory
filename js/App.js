@@ -4,11 +4,18 @@ var App;
 
 App = (function() {
 
+  App.detailsURL = /^#employees\/(\d+)/;
+
+  App.showAlert = function(message, title) {
+    if (navigator.notification) {
+      return navigator.notification.alert(message, null, title, "OK");
+    } else {
+      return alert((title ? "" + title + ": " + message : message));
+    }
+  };
+
   function App() {
     var _this = this;
-    this.store = new MemoryStore(function() {
-      return $('body').html(new HomeView(_this.store).render());
-    });
     this.registerEvents = function() {
       var $body, event_begin, event_end, tappable, touchable;
       tappable = 'tappable-active';
@@ -19,20 +26,32 @@ App = (function() {
       $body.on(event_begin, 'a', function(event) {
         return $(event.target).addClass(tappable);
       });
-      return $body.on(event_end, 'a', function(event) {
+      $body.on(event_end, 'a', function(event) {
         return $(event.target).removeClass(tappable);
       });
+      return $('window').on('hashchange', $.proxy(_this.route, _this));
     };
     this.registerEvents();
+    this.store = new MemoryStore(function() {
+      return $('body').html(new HomeView(_this.store).render());
+    });
+    this.route = function() {
+      var hash, match;
+      hash = window.location.hash;
+      App.showAlert(hash);
+      if (!hash) {
+        $('body').html(new HomeView(this.store).render());
+        return;
+      }
+      match = hash.match(App.detailsURL);
+      if (!match) {
+        return;
+      }
+      return this.store.findById(Number(match[1]), function(employee) {
+        return $('body').html(new EmployeeView(employee).render());
+      });
+    };
   }
-
-  App.prototype.showAlert = function(message, title) {
-    if (navigator.notification) {
-      return navigator.notification.alert(message, null, title, "OK");
-    } else {
-      return alert((title ? "" + title + ": " + message : message));
-    }
-  };
 
   return App;
 
