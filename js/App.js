@@ -7,9 +7,23 @@ App = (function() {
   function App() {
     var _this = this;
     this.store = new MemoryStore(function() {
-      return $('body').html(new HomeView(_this.store).render().el);
+      return $('body').html(new HomeView(_this.store).render());
     });
-    $(".search-key").on("keyup", $.proxy(self.findByName, self));
+    this.registerEvents = function() {
+      var $body, event_begin, event_end, tappable, touchable;
+      tappable = 'tappable-active';
+      touchable = document.documentElement.hasOwnProperty('ontouchstart');
+      event_begin = touchable ? 'touchstart' : 'mousedown';
+      event_end = touchable ? 'touchend' : 'mouseup';
+      $body = $('body');
+      $body.on(event_begin, 'a', function(event) {
+        return $(event.target).addClass(tappable);
+      });
+      return $body.on(event_end, 'a', function(event) {
+        return $(event.target).removeClass(tappable);
+      });
+    };
+    this.registerEvents();
   }
 
   App.prototype.showAlert = function(message, title) {

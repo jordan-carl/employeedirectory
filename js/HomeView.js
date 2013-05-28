@@ -15,10 +15,9 @@ HomeView = (function() {
       });
     };
     this.render = function() {
-      this.el = $('<div/>');
-      this.el.html(HomeView.template());
-      this.el.on('keyup', '.search-key', this.findByName);
-      return this;
+      var $el;
+      $el = $('<div/>').html(HomeView.template());
+      return $el.on('keyup', '.search-key', this.findByName);
     };
   }
 
