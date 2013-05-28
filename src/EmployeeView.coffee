@@ -19,10 +19,10 @@ class EmployeeView
         return
 
       contact = navigator.contacts.create()
-      contact.name = givenName: employee.firstName, familyName: employee.lastName
+      contact.name = givenName: details.firstName, familyName: details.lastName
       contact.phoneNumbers = [
-        new ContactField 'work', employee.officePhone, false
-        new ContactField 'mobile', employee.cellPhone, true
+        new ContactField 'work', details.officePhone, false
+        new ContactField 'mobile', details.cellPhone, true
       ]
       contact.save()
       false
