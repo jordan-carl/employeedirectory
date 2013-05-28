@@ -23,15 +23,18 @@ App = (function() {
       var hash, match;
       hash = window.location.hash;
       if (!hash) {
-        $('body').html(new HomeView(this.store).render());
+        if (!_this.homePage) {
+          _this.homePage = new HomeView(_this.store).render();
+        }
+        _this.slidePage(_this.homePage);
         return;
       }
       match = hash.match(App.detailsURL);
       if (!match) {
         return;
       }
-      return this.store.findById(Number(match[1]), function(employee) {
-        return $('body').html(new EmployeeView(employee).render());
+      return _this.store.findById(Number(match[1]), function(employee) {
+        return _this.slidePage(new EmployeeView(employee).render());
       });
     };
     this.registerEvents = function() {
@@ -50,6 +53,29 @@ App = (function() {
       return $(window).on('hashchange', $.proxy(this.route, this));
     };
     this.registerEvents();
+    this.slidePage = function(page) {
+      var direction, homepage,
+        _this = this;
+      if (!this.currentPage) {
+        $(page).attr('class', 'page stage-center');
+        $('body').append(page);
+        this.currentPage = page;
+        return;
+      }
+      $('.stage-right, .stage-left').not('.homePage').remove();
+      homepage = page === this.homePage;
+      $(page).attr('class', "page stage-" + (homepage ? 'left' : 'right'));
+      direction = (homepage ? 'right' : 'left');
+      if (!homepage) {
+        $('body').empty();
+      }
+      $('body').append(page);
+      return setTimeout(function() {
+        $(_this.currentPage).attr('class', "page transition stage-" + direction);
+        $(page).attr('class', 'page stage-center transition');
+        return _this.currentPage = page;
+      }, 250);
+    };
   }
 
   return App;

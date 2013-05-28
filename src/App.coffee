@@ -13,18 +13,19 @@ class App
     @store = new MemoryStore =>
       $('body').html new HomeView(@store).render()
 
-    @route = ->
+    @route = =>
       hash = window.location.hash
 
       if not hash
-        $('body').html new HomeView(@store).render()
+        @homePage = new HomeView(@store).render() if not @homePage
+        @slidePage @homePage
         return
 
       match = hash.match App.detailsURL
       return if not match
 
-      @store.findById (Number match[1]), (employee) ->
-        $('body').html new EmployeeView(employee).render()
+      @store.findById (Number match[1]), (employee) =>
+        @slidePage new EmployeeView(employee).render()
 
     @registerEvents =->
       tappable = 'tappable-active'
@@ -38,3 +39,25 @@ class App
       $(window).on 'hashchange', ($.proxy @route, @)
 
     @registerEvents()
+
+    @slidePage = (page) ->
+      if not @currentPage
+        $(page).attr 'class', 'page stage-center'
+        $('body').append page
+        @currentPage = page
+        return
+
+      $('.stage-right, .stage-left').not('.homePage').remove()
+
+      homepage = (page is @homePage)
+      $(page).attr 'class', "page stage-#{if homepage then 'left' else 'right' }"
+      direction = (if homepage then 'right' else 'left')
+
+      $('body').empty() if not homepage
+      $('body').append page
+
+      setTimeout =>
+        $(@currentPage).attr 'class', "page transition stage-#{direction}"
+        $(page).attr 'class', 'page stage-center transition'
+        @currentPage = page
+      , 250
