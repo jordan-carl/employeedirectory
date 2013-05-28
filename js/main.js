@@ -11,7 +11,8 @@
     };
     this.liTemplate = Handlebars.compile($('#employee-li-tpl').html());
     this.render = function() {
-      return this.el.html(HomeView.template());
+      this.el.html(HomeView.template());
+      return this;
     };
     this.template = Handlebars.compile($('#home-tpl').html());
     this.initialize = function() {
