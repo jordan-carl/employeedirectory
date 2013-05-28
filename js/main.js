@@ -5,14 +5,14 @@
 
   app = {
     initialize: function() {
-      var self;
-      self = this;
-      self.store = new MemoryStore(function() {
-        return $('body').html(new HomeView(self.store).render().el);
+      var _this = this;
+      this.store = new MemoryStore(function() {
+        return $('body').html(new HomeView(_this.store).render().el);
       });
       $(".search-key").on("keyup", $.proxy(self.findByName, self));
-      self.homeTpl = Handlebars.compile($("#home-tpl").html());
-      return self.employeeLiTpl = Handlebars.compile($("#employee-li-tpl").html());
+      this.homeTpl = Handlebars.compile($("#home-tpl").html());
+      this.employeeLiTpl = Handlebars.compile($("#employee-li-tpl").html());
+      return this;
     },
     showAlert: function(message, title) {
       if (navigator.notification) {

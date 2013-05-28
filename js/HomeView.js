@@ -8,16 +8,15 @@
         return $('.employee-list').html(HomeView.liTemplate(employees));
       });
     };
-    this.initialize = function() {
-      return $('<div/>').on('keyup', '.search-key', this.findByName);
-    };
     this.liTemplate = Handlebars.compile($('#employee-li-tpl').html());
     this.render = function() {
       return this.el.html(HomeView.template());
     };
-    return this.template = Handlebars.compile($('#home-tpl').html());
+    this.template = Handlebars.compile($('#home-tpl').html());
+    this.initialize = function() {
+      return $('<div/>').on('keyup', '.search-key', this.findByName);
+    };
+    return this.initialize();
   };
-
-  HomeView.initialize();
 
 }).call(this);
