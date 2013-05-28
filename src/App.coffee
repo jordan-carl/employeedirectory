@@ -10,26 +10,12 @@ class App
       alert (if title then "#{title}: #{message}" else message)
 
   constructor: ->
-    @registerEvents = =>
-      tappable = 'tappable-active'
-      touchable = document.documentElement.hasOwnProperty 'ontouchstart'
-      event_begin = if touchable then 'touchstart' else 'mousedown'
-      event_end = if touchable then 'touchend' else 'mouseup'
-
-      $body = $('body')
-      $body.on event_begin, 'a', (event) -> $(event.target).addClass tappable
-      $body.on event_end, 'a', (event) => $(event.target).removeClass tappable
-
-      $('window').on 'hashchange', ($.proxy @route, @)
-
-    @registerEvents()
-
     @store = new MemoryStore =>
       $('body').html new HomeView(@store).render()
 
-    @route =->
+    @route = ->
       hash = window.location.hash
-      App.showAlert hash
+
       if not hash
         $('body').html new HomeView(@store).render()
         return
@@ -39,3 +25,16 @@ class App
 
       @store.findById (Number match[1]), (employee) ->
         $('body').html new EmployeeView(employee).render()
+
+    @registerEvents =->
+      tappable = 'tappable-active'
+      touchable = document.documentElement.hasOwnProperty 'ontouchstart'
+      event_begin = if touchable then 'touchstart' else 'mousedown'
+      event_end = if touchable then 'touchend' else 'mouseup'
+
+      $body = $('body')
+      $body.on event_begin, 'a', (event) -> $(event.target).addClass tappable
+      $body.on event_end, 'a', (event) -> $(event.target).removeClass tappable
+      $(window).on 'hashchange', ($.proxy @route, @)
+
+    @registerEvents()

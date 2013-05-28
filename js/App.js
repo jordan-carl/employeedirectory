@@ -16,6 +16,24 @@ App = (function() {
 
   function App() {
     var _this = this;
+    this.store = new MemoryStore(function() {
+      return $('body').html(new HomeView(_this.store).render());
+    });
+    this.route = function() {
+      var hash, match;
+      hash = window.location.hash;
+      if (!hash) {
+        $('body').html(new HomeView(this.store).render());
+        return;
+      }
+      match = hash.match(App.detailsURL);
+      if (!match) {
+        return;
+      }
+      return this.store.findById(Number(match[1]), function(employee) {
+        return $('body').html(new EmployeeView(employee).render());
+      });
+    };
     this.registerEvents = function() {
       var $body, event_begin, event_end, tappable, touchable;
       tappable = 'tappable-active';
@@ -29,28 +47,9 @@ App = (function() {
       $body.on(event_end, 'a', function(event) {
         return $(event.target).removeClass(tappable);
       });
-      return $('window').on('hashchange', $.proxy(_this.route, _this));
+      return $(window).on('hashchange', $.proxy(this.route, this));
     };
     this.registerEvents();
-    this.store = new MemoryStore(function() {
-      return $('body').html(new HomeView(_this.store).render());
-    });
-    this.route = function() {
-      var hash, match;
-      hash = window.location.hash;
-      App.showAlert(hash);
-      if (!hash) {
-        $('body').html(new HomeView(this.store).render());
-        return;
-      }
-      match = hash.match(App.detailsURL);
-      if (!match) {
-        return;
-      }
-      return this.store.findById(Number(match[1]), function(employee) {
-        return $('body').html(new EmployeeView(employee).render());
-      });
-    };
   }
 
   return App;
