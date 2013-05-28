@@ -11,6 +11,23 @@ class EmployeeView
       , -> App.showAlert 'Error getting location!'
       false
 
+    @addToContacts = (event) ->
+      event.preventDefault()
+
+      if not navigator.contacts
+        App.showAlert 'Contacts API not supported', 'Error'
+        return
+
+      contact = navigator.contacts.create()
+      contact.name = givenName: employee.firstName, familyName: employee.lastName
+      contact.phoneNumbers = [
+        new ContactField 'work', employee.officePhone, false
+        new ContactField 'mobile', employee.cellPhone, true
+      ]
+      contact.save()
+      false
+
     @render =->
       $el = $('<div/>').html EmployeeView.template details
       $el.on 'click', '.add-location-btn', @addLocation
+      $el.on 'click', '.add-contact-btn', @addToContacts

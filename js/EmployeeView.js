@@ -18,10 +18,27 @@ EmployeeView = (function() {
       });
       return false;
     };
+    this.addToContacts = function(event) {
+      var contact;
+      event.preventDefault();
+      if (!navigator.contacts) {
+        App.showAlert('Contacts API not supported', 'Error');
+        return;
+      }
+      contact = navigator.contacts.create();
+      contact.name = {
+        givenName: employee.firstName,
+        familyName: employee.lastName
+      };
+      contact.phoneNumbers = [new ContactField('work', employee.officePhone, false), new ContactField('mobile', employee.cellPhone, true)];
+      contact.save();
+      return false;
+    };
     this.render = function() {
       var $el;
       $el = $('<div/>').html(EmployeeView.template(details));
-      return $el.on('click', '.add-location-btn', this.addLocation);
+      $el.on('click', '.add-location-btn', this.addLocation);
+      return $el.on('click', '.add-contact-btn', this.addToContacts);
     };
   }
 
