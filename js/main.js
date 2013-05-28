@@ -2,24 +2,4 @@
 'use strict';
 var app;
 
-app = {
-  initialize: function() {
-    var _this = this;
-    this.store = new MemoryStore(function() {
-      return $('body').html(new HomeView(_this.store).render().el);
-    });
-    $(".search-key").on("keyup", $.proxy(self.findByName, self));
-    this.homeTpl = Handlebars.compile($("#home-tpl").html());
-    this.employeeLiTpl = Handlebars.compile($("#employee-li-tpl").html());
-    return this;
-  },
-  showAlert: function(message, title) {
-    if (navigator.notification) {
-      return navigator.notification.alert(message, null, title, "OK");
-    } else {
-      return alert((title ? "" + title + ": " + message : message));
-    }
-  }
-};
-
-app.initialize();
+app = new App();

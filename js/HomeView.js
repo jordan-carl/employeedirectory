@@ -4,6 +4,10 @@ var HomeView;
 
 HomeView = (function() {
 
+  HomeView.liTemplate = Handlebars.compile($('#employee-li-tpl').html());
+
+  HomeView.template = Handlebars.compile($('#home-tpl').html());
+
   function HomeView(store) {
     this.findByName = function() {
       return store.findByName($('.search-key').val(), function(employees) {
@@ -11,14 +15,12 @@ HomeView = (function() {
       });
     };
     this.render = function() {
-      return this.el.html(HomeView.template());
+      this.el = $('<div/>');
+      this.el.html(HomeView.template());
+      return this;
     };
     $('<div/>').on('keyup', '.search-key', this.findByName);
   }
-
-  HomeView.prototype.liTemplate = Handlebars.compile($('#employee-li-tpl').html());
-
-  HomeView.prototype.template = Handlebars.compile($('#home-tpl').html());
 
   return HomeView;
 
