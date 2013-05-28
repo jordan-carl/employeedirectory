@@ -14,7 +14,7 @@ EmployeeView = (function() {
         coords = position.coords;
         return $('.location').html("" + coords.latitude + ", " + coords.longitude);
       }, function() {
-        return App.showAlert('Error getting location!');
+        return App.showAlert('Error getting location!', 'Error');
       });
       return false;
     };
@@ -34,11 +34,32 @@ EmployeeView = (function() {
       contact.save();
       return false;
     };
+    this.changePicture = function(event) {
+      var options;
+      event.preventDefault();
+      if (!navigator.camera) {
+        App.showAlert('Camera API not supported', 'Error');
+        return;
+      }
+      options = {
+        quality: 50,
+        sourceType: 1,
+        encodingType: 0,
+        destinationType: Camera.DestinationType.DATA_URL
+      };
+      navigator.camera.getPicture(function(imageData) {
+        return $('.employee-image').attr('src', "data:image/jpeg;base64," + imageData);
+      }, function() {
+        return App.showAlert('Error taking picture!', 'Error');
+      }, options);
+      return false;
+    };
     this.render = function() {
       var $el;
       $el = $('<div/>').html(EmployeeView.template(details));
+      $el.on('click', '.add-contact-btn', this.addToContacts);
       $el.on('click', '.add-location-btn', this.addLocation);
-      return $el.on('click', '.add-contact-btn', this.addToContacts);
+      return $el.on('click', '.change-pic-btn', this.changePicture);
     };
   }
 

@@ -8,7 +8,7 @@ class EmployeeView
       navigator.geolocation.getCurrentPosition (position) ->
         coords = position.coords
         $('.location').html "#{coords.latitude}, #{coords.longitude}"
-      , -> App.showAlert 'Error getting location!'
+      , -> App.showAlert 'Error getting location!', 'Error'
       false
 
     @addToContacts = (event) ->
@@ -27,7 +27,28 @@ class EmployeeView
       contact.save()
       false
 
+    @changePicture = (event) ->
+      event.preventDefault()
+
+      if not navigator.camera
+        App.showAlert 'Camera API not supported', 'Error'
+        return
+
+      options =
+        quality: 50
+        sourceType: 1
+        encodingType: 0
+        destinationType: Camera.DestinationType.DATA_URL
+
+      navigator.camera.getPicture (imageData) ->
+        $('.employee-image').attr 'src', "data:image/jpeg;base64,#{imageData}"
+      , ->
+        App.showAlert 'Error taking picture!', 'Error'
+      , options
+      false
+
     @render =->
       $el = $('<div/>').html EmployeeView.template details
-      $el.on 'click', '.add-location-btn', @addLocation
       $el.on 'click', '.add-contact-btn', @addToContacts
+      $el.on 'click', '.add-location-btn', @addLocation
+      $el.on 'click', '.change-pic-btn', @changePicture
