@@ -7,8 +7,21 @@ EmployeeView = (function() {
   EmployeeView.template = Handlebars.compile($('#employee-tpl').html());
 
   function EmployeeView(details) {
+    this.addLocation = function(event) {
+      event.preventDefault();
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var coords;
+        coords = position.coords;
+        return $('.location').html("" + coords.latitude + ", " + coords.longitude);
+      }, function() {
+        return App.showAlert('Error getting location!');
+      });
+      return false;
+    };
     this.render = function() {
-      return $('<div/>').html(EmployeeView.template(details));
+      var $el;
+      $el = $('<div/>').html(EmployeeView.template(details));
+      return $el.on('click', '.add-location-btn', this.addLocation);
     };
   }
 
