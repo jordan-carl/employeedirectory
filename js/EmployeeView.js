@@ -55,12 +55,13 @@ EmployeeView = (function() {
       return false;
     };
     this.render = function() {
-      var $el;
-      $el = $('<div/>').html(EmployeeView.template(details));
-      $el.on('click', '.add-contact-btn', this.addToContacts);
-      $el.on('click', '.add-location-btn', this.addLocation);
-      return $el.on('click', '.change-pic-btn', this.changePicture);
+      this.el.html(EmployeeView.template(details));
+      return this;
     };
+    this.el = $('<div/>');
+    this.el.on('click', '.add-contact-btn', this.addToContacts);
+    this.el.on('click', '.add-location-btn', this.addLocation);
+    this.el.on('click', '.change-pic-btn', this.changePicture);
   }
 
   return EmployeeView;

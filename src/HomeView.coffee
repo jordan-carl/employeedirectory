@@ -9,6 +9,9 @@ class HomeView
       store.findByName $('.search-key').val(), (employees) ->
         $('.employee-list').html HomeView.liTemplate employees
 
-    @render =->
-      $el = $('<div/>').html HomeView.template()
-      $el.on 'keyup', '.search-key', @findByName
+    @render = =>
+      @el.html HomeView.template()
+      @
+
+    @el = $('<div class="homePage page stage-center" />')
+    @el.on 'keyup', '.search-key', @findByName

@@ -16,26 +16,25 @@ App = (function() {
 
   function App() {
     var _this = this;
-    this.store = new MemoryStore(function() {
-      return $('body').html(new HomeView(_this.store).render());
-    });
     this.route = function() {
       var hash, match;
       hash = window.location.hash;
       if (!hash) {
-        if (!_this.homePage) {
-          _this.homePage = new HomeView(_this.store).render();
+        if (_this.homePage) {
+          _this.slidePage(_this.homePage);
+        } else {
+          _this.homePage = new HomeView(_this.store).render(true);
+          _this.currentPage = _this.homePage;
+          $('body').append(_this.homePage.el);
         }
-        _this.slidePage(_this.homePage);
         return;
       }
       match = hash.match(App.detailsURL);
-      if (!match) {
-        return;
+      if (match) {
+        return _this.store.findById(Number(match[1]), function(employee) {
+          return _this.slidePage(new EmployeeView(employee).render());
+        });
       }
-      return _this.store.findById(Number(match[1]), function(employee) {
-        return _this.slidePage(new EmployeeView(employee).render());
-      });
     };
     this.registerEvents = function() {
       var $body, event_begin, event_end, tappable, touchable;
@@ -54,28 +53,22 @@ App = (function() {
     };
     this.registerEvents();
     this.slidePage = function(page) {
-      var direction, homepage,
-        _this = this;
-      if (!this.currentPage) {
-        $(page).attr('class', 'page stage-center');
-        $('body').append(page);
-        this.currentPage = page;
-        return;
-      }
-      $('.stage-right, .stage-left').not('.homePage').remove();
-      homepage = page === this.homePage;
-      $(page).attr('class', "page stage-" + (homepage ? 'left' : 'right'));
+      var direction, el, homepage;
+      $('.page:not(.homePage)').remove();
+      el = page.el;
+      homepage = page === _this.homePage;
+      $(el).attr('class', "page stage-" + (homepage ? 'left' : 'right'));
       direction = (homepage ? 'right' : 'left');
-      if (!homepage) {
-        $('body').empty();
-      }
-      $('body').append(page);
+      $('body').append(el);
       return setTimeout(function() {
-        $(_this.currentPage).attr('class', "page transition stage-" + direction);
-        $(page).attr('class', 'page stage-center transition');
+        $(_this.currentPage.el).attr('class', "page transition stage-" + direction + (homepage ? '' : ' homePage'));
+        $(el).attr('class', "page stage-center transition" + (homepage ? ' homePage' : ''));
         return _this.currentPage = page;
-      }, 250);
+      });
     };
+    this.store = new MemoryStore(function() {
+      return _this.route();
+    });
   }
 
   return App;

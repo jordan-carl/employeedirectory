@@ -9,16 +9,18 @@ HomeView = (function() {
   HomeView.template = Handlebars.compile($('#home-tpl').html());
 
   function HomeView(store) {
+    var _this = this;
     this.findByName = function() {
       return store.findByName($('.search-key').val(), function(employees) {
         return $('.employee-list').html(HomeView.liTemplate(employees));
       });
     };
     this.render = function() {
-      var $el;
-      $el = $('<div/>').html(HomeView.template());
-      return $el.on('keyup', '.search-key', this.findByName);
+      _this.el.html(HomeView.template());
+      return _this;
     };
+    this.el = $('<div class="homePage page stage-center" />');
+    this.el.on('keyup', '.search-key', this.findByName);
   }
 
   return HomeView;

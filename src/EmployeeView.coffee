@@ -2,6 +2,7 @@
 
 class EmployeeView
   @template: Handlebars.compile $('#employee-tpl').html()
+
   constructor: (details) ->
     @addLocation = (event) ->
       event.preventDefault()
@@ -48,7 +49,10 @@ class EmployeeView
       false
 
     @render =->
-      $el = $('<div/>').html EmployeeView.template details
-      $el.on 'click', '.add-contact-btn', @addToContacts
-      $el.on 'click', '.add-location-btn', @addLocation
-      $el.on 'click', '.change-pic-btn', @changePicture
+      @el.html EmployeeView.template details
+      @
+
+    @el = $('<div/>')
+    @el.on 'click', '.add-contact-btn', @addToContacts
+    @el.on 'click', '.add-location-btn', @addLocation
+    @el.on 'click', '.change-pic-btn', @changePicture
