@@ -1,3 +1,4 @@
 'use strict'
 
-app = new App()
+$ ->
+  app = new App()

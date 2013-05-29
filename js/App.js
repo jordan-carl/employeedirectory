@@ -21,7 +21,7 @@ App = (function() {
       hash = window.location.hash;
       if (!hash) {
         if (_this.homePage) {
-          _this.slidePage(_this.homePage);
+          _this.slidePage(_this.homePage, true);
         } else {
           _this.homePage = new HomeView(_this.store).render(true);
           _this.currentPage = _this.homePage;
@@ -52,30 +52,40 @@ App = (function() {
       return $(window).on('hashchange', $.proxy(this.route, this));
     };
     this.registerEvents();
-    this.slidePage = function(page) {
-      var $el, direction, homepage;
-      $('.page:not(.stage-center, .homePage)').remove();
+    this.slidePage = function(page, clear) {
+      var $el, options;
+      if (clear == null) {
+        clear = false;
+      }
       $el = $(page.el);
-      homepage = page === _this.homePage;
-      $el.attr('class', "page stage-" + (homepage ? 'left' : 'right')).appendTo('body');
-      direction = (homepage ? 'right' : 'left');
-      return setTimeout(function() {
-        $(_this.currentPage.el).attr('class', "page transition stage-" + direction + (homepage ? '' : ' homePage'));
-        $el.attr('class', "page stage-center transition" + (homepage ? ' homePage' : ''));
-        _this.currentPage = page;
-        if (homepage) {
-          $('.search-key', $el).focus();
-          return;
-        }
-        return $el.swipe({
+      if (page !== _this.homePage) {
+        $el.css({
+          left: '100%'
+        });
+        $el.appendTo('body');
+        $el.swipe({
           threshold: 0,
           swipe: function(event, direction, distance, duration, fingers) {
             if (direction === 'right') {
-              return history.back();
+              return document.location.hash = '#';
             }
           }
         });
-      });
+      }
+      options = {
+        duration: 300,
+        complete: function() {
+          if (clear) {
+            $('section:not(.homePage)').remove();
+          }
+          return _this.currentPage = page;
+        }
+      };
+      return setTimeout(function() {
+        return $('html,body').scrollTo($el, $el, {
+          animation: options
+        });
+      }, 300);
     };
     this.store = new MemoryStore(function() {
       return _this.route();

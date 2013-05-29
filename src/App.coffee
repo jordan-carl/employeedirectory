@@ -14,7 +14,7 @@ class App
       hash = window.location.hash
 
       if not hash
-        if @homePage then @slidePage @homePage
+        if @homePage then @slidePage @homePage, true
         else
           @homePage = new HomeView(@store).render true
           @currentPage = @homePage
@@ -39,27 +39,24 @@ class App
 
     @registerEvents()
 
-    @slidePage = (page) =>
-      $('.page:not(.stage-center, .homePage)').remove()
-
+    @slidePage = (page, clear=false) =>
       $el = $(page.el)
-      homepage = (page is @homePage)
-      $el.attr('class', "page stage-#{if homepage then 'left' else 'right' }").appendTo 'body'
-      direction = (if homepage then 'right' else 'left')
-
-      setTimeout =>
-        $(@currentPage.el).attr 'class', "page transition stage-#{direction}#{if homepage then '' else ' homePage'}"
-        $el.attr 'class', "page stage-center transition#{if homepage then ' homePage' else ''}"
-        @currentPage = page
-
-        if homepage
-          $('.search-key', $el).focus()
-          return
-
+      if page isnt @homePage
+        $el.css left: '100%'
+        $el.appendTo 'body'
         $el.swipe
           threshold: 0
-          swipe: (event, direction, distance, duration, fingers) ->
-            history.back() if direction is 'right'
+          swipe: (event, direction, distance, duration, fingers) =>
+            document.location.hash = '#' if direction is 'right'
 
+      options =
+        duration: 300
+        complete: =>
+          $('section:not(.homePage)').remove() if clear
+          @currentPage = page
+
+      setTimeout ->
+        $('html,body').scrollTo $el, $el, animation:options
+      , 300
 
     @store = new MemoryStore => @route()

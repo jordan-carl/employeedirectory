@@ -58,7 +58,7 @@ EmployeeView = (function() {
       this.el.html(EmployeeView.template(details));
       return this;
     };
-    this.el = $('<div/>').on('click', '.add-contact-btn', this.addToContacts).on('click', '.add-location-btn', this.addLocation).on('click', '.change-pic-btn', this.changePicture);
+    this.el = $('<section/>').on('click', '.add-contact-btn', this.addToContacts).on('click', '.add-location-btn', this.addLocation).on('click', '.change-pic-btn', this.changePicture);
   }
 
   return EmployeeView;

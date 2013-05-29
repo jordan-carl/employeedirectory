@@ -52,7 +52,7 @@ class EmployeeView
       @el.html EmployeeView.template details
       @
 
-    @el = $('<div/>')
+    @el = $('<section/>')
       .on('click', '.add-contact-btn', @addToContacts)
       .on('click', '.add-location-btn', @addLocation)
       .on 'click', '.change-pic-btn', @changePicture
