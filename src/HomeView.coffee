@@ -13,7 +13,7 @@ class HomeView
       @el.html HomeView.template()
       @
 
-    @el = $('<section class="homePage" />')
+    @el = $('<div class="homePage page" />')
       .on 'keyup', '.search-key', @findByName
 
     setTimeout ->

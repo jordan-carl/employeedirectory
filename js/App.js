@@ -76,7 +76,7 @@ App = (function() {
         duration: 300,
         complete: function() {
           if (clear) {
-            $('section:not(.homePage)').remove();
+            $('.page:not(.homePage)').remove();
           }
           return _this.currentPage = page;
         }

@@ -52,7 +52,7 @@ class App
       options =
         duration: 300
         complete: =>
-          $('section:not(.homePage)').remove() if clear
+          $('.page:not(.homePage)').remove() if clear
           @currentPage = page
 
       setTimeout ->
