@@ -20,6 +20,9 @@ HomeView = (function() {
       return _this;
     };
     this.el = $('<div class="homePage page stage-center" />').on('keyup', '.search-key', this.findByName);
+    setTimeout(function() {
+      return $('.search-key', this.el).focus();
+    });
   }
 
   return HomeView;

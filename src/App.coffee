@@ -40,25 +40,26 @@ class App
     @registerEvents()
 
     @slidePage = (page) =>
-      $('.page:not(.homePage)').remove()
+      $('.page:not(.stage-center, .homePage)').remove()
 
-      el = page.el
+      $el = $(page.el)
       homepage = (page is @homePage)
-      $(el).attr 'class', "page stage-#{if homepage then 'left' else 'right' }"
+      $el.attr('class', "page stage-#{if homepage then 'left' else 'right' }").appendTo 'body'
       direction = (if homepage then 'right' else 'left')
-      $('body').append el
 
       setTimeout =>
         $(@currentPage.el).attr 'class', "page transition stage-#{direction}#{if homepage then '' else ' homePage'}"
-        $(el).attr 'class', "page stage-center transition#{if homepage then ' homePage' else ''}"
+        $el.attr 'class', "page stage-center transition#{if homepage then ' homePage' else ''}"
+        @currentPage = page
 
-        $(el).swipe
+        if homepage
+          $('.search-key', $el).focus()
+          return
+
+        $el.swipe
           threshold: 0
           swipe: (event, direction, distance, duration, fingers) ->
-            return if direction isnt 'right'
-            console.log "You swiped #{direction}"
-            history.back()
+            history.back() if direction is 'right'
 
-        @currentPage = page
 
     @store = new MemoryStore => @route()

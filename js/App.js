@@ -53,27 +53,28 @@ App = (function() {
     };
     this.registerEvents();
     this.slidePage = function(page) {
-      var direction, el, homepage;
-      $('.page:not(.homePage)').remove();
-      el = page.el;
+      var $el, direction, homepage;
+      $('.page:not(.stage-center, .homePage)').remove();
+      $el = $(page.el);
       homepage = page === _this.homePage;
-      $(el).attr('class', "page stage-" + (homepage ? 'left' : 'right'));
+      $el.attr('class', "page stage-" + (homepage ? 'left' : 'right')).appendTo('body');
       direction = (homepage ? 'right' : 'left');
-      $('body').append(el);
       return setTimeout(function() {
         $(_this.currentPage.el).attr('class', "page transition stage-" + direction + (homepage ? '' : ' homePage'));
-        $(el).attr('class', "page stage-center transition" + (homepage ? ' homePage' : ''));
-        $(el).swipe({
+        $el.attr('class', "page stage-center transition" + (homepage ? ' homePage' : ''));
+        _this.currentPage = page;
+        if (homepage) {
+          $('.search-key', $el).focus();
+          return;
+        }
+        return $el.swipe({
           threshold: 0,
           swipe: function(event, direction, distance, duration, fingers) {
-            if (direction !== 'right') {
-              return;
+            if (direction === 'right') {
+              return history.back();
             }
-            console.log("You swiped " + direction);
-            return history.back();
           }
         });
-        return _this.currentPage = page;
       });
     };
     this.store = new MemoryStore(function() {

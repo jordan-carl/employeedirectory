@@ -15,3 +15,6 @@ class HomeView
 
     @el = $('<div class="homePage page stage-center" />')
       .on 'keyup', '.search-key', @findByName
+
+    setTimeout ->
+      $('.search-key', @el).focus()
