@@ -6,12 +6,12 @@ class HomeView
 
   constructor: (store) ->
     @findByName =->
-      store.findByName $('.search-key').val(), (employees) ->
-        $('.employee-list').html HomeView.liTemplate employees
+      store.findByName $('.search-key').val(), (results) ->
+        $('.employee-list').html HomeView.liTemplate results
 
     @render = =>
       @el.html HomeView.template()
       @
 
     @el = $('<div class="homePage page stage-center" />')
-    @el.on 'keyup', '.search-key', @findByName
+      .on 'keyup', '.search-key', @findByName

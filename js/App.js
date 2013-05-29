@@ -63,6 +63,16 @@ App = (function() {
       return setTimeout(function() {
         $(_this.currentPage.el).attr('class', "page transition stage-" + direction + (homepage ? '' : ' homePage'));
         $(el).attr('class', "page stage-center transition" + (homepage ? ' homePage' : ''));
+        $(el).swipe({
+          threshold: 0,
+          swipe: function(event, direction, distance, duration, fingers) {
+            if (direction !== 'right') {
+              return;
+            }
+            console.log("You swiped " + direction);
+            return history.back();
+          }
+        });
         return _this.currentPage = page;
       });
     };

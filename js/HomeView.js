@@ -11,16 +11,15 @@ HomeView = (function() {
   function HomeView(store) {
     var _this = this;
     this.findByName = function() {
-      return store.findByName($('.search-key').val(), function(employees) {
-        return $('.employee-list').html(HomeView.liTemplate(employees));
+      return store.findByName($('.search-key').val(), function(results) {
+        return $('.employee-list').html(HomeView.liTemplate(results));
       });
     };
     this.render = function() {
       _this.el.html(HomeView.template());
       return _this;
     };
-    this.el = $('<div class="homePage page stage-center" />');
-    this.el.on('keyup', '.search-key', this.findByName);
+    this.el = $('<div class="homePage page stage-center" />').on('keyup', '.search-key', this.findByName);
   }
 
   return HomeView;

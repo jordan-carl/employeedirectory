@@ -51,6 +51,14 @@ class App
       setTimeout =>
         $(@currentPage.el).attr 'class', "page transition stage-#{direction}#{if homepage then '' else ' homePage'}"
         $(el).attr 'class', "page stage-center transition#{if homepage then ' homePage' else ''}"
+
+        $(el).swipe
+          threshold: 0
+          swipe: (event, direction, distance, duration, fingers) ->
+            return if direction isnt 'right'
+            console.log "You swiped #{direction}"
+            history.back()
+
         @currentPage = page
 
     @store = new MemoryStore => @route()
