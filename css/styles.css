@@ -101,13 +101,13 @@ input {
 }
 
 .scroll {
-  overflow: auto;
+  overflow: scroll;
   -webkit-overflow-scrolling: touch;
   position: absolute;
   top: 84px;
   bottom: 0px;
   left: 0px;
-  right: 0px;
+  width: 100%;
 }
 
 .search-bar {

@@ -8,7 +8,6 @@ EmployeeView = (function() {
 
   function EmployeeView(details) {
     this.addLocation = function(event) {
-      event.preventDefault();
       navigator.geolocation.getCurrentPosition(function(position) {
         var coords;
         coords = position.coords;
@@ -20,7 +19,6 @@ EmployeeView = (function() {
     };
     this.addToContacts = function(event) {
       var contact;
-      event.preventDefault();
       if (!navigator.contacts) {
         App.showAlert('Contacts API not supported', 'Error');
         return;
@@ -36,7 +34,6 @@ EmployeeView = (function() {
     };
     this.changePicture = function(event) {
       var options;
-      event.preventDefault();
       if (!navigator.camera) {
         App.showAlert('Camera API not supported', 'Error');
         return;

@@ -6,8 +6,11 @@ class HomeView
 
   constructor: (store) ->
     @findByName =->
-      store.findByName $('.search-key').val(), (results) ->
-        $('.employee-list').html HomeView.liTemplate results
+      store.findByName $('.search-key').val(), (results) =>
+        $el = $('.employee-list', '.homePage').html HomeView.liTemplate results
+
+        if @iscroll then @iscroll.refresh()
+        else @iscroll = new iScroll $el[0], hScrollbar: false, vScrollbar: false, hScroll: false
 
     @render = =>
       @el.html HomeView.template()

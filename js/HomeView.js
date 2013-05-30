@@ -11,8 +11,19 @@ HomeView = (function() {
   function HomeView(store) {
     var _this = this;
     this.findByName = function() {
+      var _this = this;
       return store.findByName($('.search-key').val(), function(results) {
-        return $('.employee-list').html(HomeView.liTemplate(results));
+        var $el;
+        $el = $('.employee-list', '.homePage').html(HomeView.liTemplate(results));
+        if (_this.iscroll) {
+          return _this.iscroll.refresh();
+        } else {
+          return _this.iscroll = new iScroll($el[0], {
+            hScrollbar: false,
+            vScrollbar: false,
+            hScroll: false
+          });
+        }
       });
     };
     this.render = function() {

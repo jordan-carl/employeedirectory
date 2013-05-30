@@ -6,10 +6,11 @@ class App
   @showAlert: (message, title) ->
     if navigator.notification
       navigator.notification.alert message, null, title, "OK"
-    else
-      alert (if title then "#{title}: #{message}" else message)
+    else alert if title then "#{title}: #{message}" else message
 
-  constructor: (onResize) ->
+  constructor: (handler) ->
+    @page = 0
+
     @route = =>
       hash = window.location.hash
 
@@ -18,7 +19,7 @@ class App
         else
           @homePage = new HomeView(@store).render true
           @currentPage = @homePage
-          $('#thelist').append @homePage.el
+          @homePage.el.appendTo '#thelist'
         return
 
       match = hash.match App.detailsURL
@@ -39,8 +40,37 @@ class App
 
     @registerEvents()
 
+    options =
+      snap: true
+      momentum: false
+      hScrollbar: false
+      vScroll: false
+      onScrollEnd: ->
+        window.location.hash = '#' if @page isnt @currPageX and @currPageX is 0
+        @page = @currPageX
+
+    @scroller = new iScroll 'wrapper', options
+
+    @handle = ($el, clear=false) ->
+      ms = 300
+      setTimeout =>
+        @scroller.refresh()
+        @scroller.scrollToPage (if clear then 0 else 1), 0, ms
+
+        if clear then setTimeout =>
+          @scroller.disable()
+          $el.remove()
+        , ms else @scroller.enable()
+
+        setTimeout ->
+          $('.scroll', '.homePage').css width: if clear then '100%' else '50%'
+        , if clear then 0 else ms
+      , 0
+
     @slidePage = (page, clear=false) =>
-      onResize $(page.el).appendTo '#thelist' if page isnt @homePage
-      onResize $('.page:not(.homePage)', '#thelist'), true if clear
+      $el = $(page.el)
+      @handle $el.appendTo '#thelist' if page isnt @homePage
+      @handle $('.page:not(.homePage)', '#thelist'), true if clear
+      handler $el, clear
 
     @store = new MemoryStore => @route()

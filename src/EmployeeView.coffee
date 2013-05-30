@@ -5,7 +5,6 @@ class EmployeeView
 
   constructor: (details) ->
     @addLocation = (event) ->
-      event.preventDefault()
       navigator.geolocation.getCurrentPosition (position) ->
         coords = position.coords
         $('.location').html "#{coords.latitude}, #{coords.longitude}"
@@ -13,8 +12,6 @@ class EmployeeView
       false
 
     @addToContacts = (event) ->
-      event.preventDefault()
-
       if not navigator.contacts
         App.showAlert 'Contacts API not supported', 'Error'
         return
@@ -29,8 +26,6 @@ class EmployeeView
       false
 
     @changePicture = (event) ->
-      event.preventDefault()
-
       if not navigator.camera
         App.showAlert 'Camera API not supported', 'Error'
         return
