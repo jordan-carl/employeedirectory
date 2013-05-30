@@ -14,7 +14,7 @@ App = (function() {
     }
   };
 
-  function App() {
+  function App(onResize) {
     var _this = this;
     this.route = function() {
       var hash, match;
@@ -25,7 +25,7 @@ App = (function() {
         } else {
           _this.homePage = new HomeView(_this.store).render(true);
           _this.currentPage = _this.homePage;
-          $('body').append(_this.homePage.el);
+          $('#thelist').append(_this.homePage.el);
         }
         return;
       }
@@ -42,7 +42,7 @@ App = (function() {
       touchable = document.documentElement.hasOwnProperty('ontouchstart');
       event_begin = touchable ? 'touchstart' : 'mousedown';
       event_end = touchable ? 'touchend' : 'mouseup';
-      $body = $('body');
+      $body = $('#thelist');
       $body.on(event_begin, 'a', function(event) {
         return $(event.target).addClass(tappable);
       });
@@ -53,39 +53,15 @@ App = (function() {
     };
     this.registerEvents();
     this.slidePage = function(page, clear) {
-      var $el, options;
       if (clear == null) {
         clear = false;
       }
-      $el = $(page.el);
       if (page !== _this.homePage) {
-        $el.css({
-          left: '100%'
-        });
-        $el.appendTo('body');
-        $el.swipe({
-          threshold: 0,
-          swipe: function(event, direction, distance, duration, fingers) {
-            if (direction === 'right') {
-              return document.location.hash = '#';
-            }
-          }
-        });
+        onResize($(page.el).appendTo('#thelist'));
       }
-      options = {
-        duration: 300,
-        complete: function() {
-          if (clear) {
-            $('.page:not(.homePage)').remove();
-          }
-          return _this.currentPage = page;
-        }
-      };
-      return setTimeout(function() {
-        return $('html,body').scrollTo($el, $el, {
-          animation: options
-        });
-      }, 300);
+      if (clear) {
+        return onResize($('.page:not(.homePage)', '#thelist'), true);
+      }
     };
     this.store = new MemoryStore(function() {
       return _this.route();

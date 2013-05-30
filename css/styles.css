@@ -16,39 +16,49 @@ body {
   padding: 0;
   height: 100%;
   background-color: #fff;
-  overflow: hidden;
-  position: relative;
 }
 
 input {
   -webkit-user-select: auto !important;
 }
 
-.page {
-  position: absolute;
-  width: 100%;
+#wrapper {
+  width:100%;
+  height:100%;
+
+  float:left;
+  position:relative;  /* On older OS versions "position" and "z-index" must be defined, */
+  z-index:1;          /* it seems that recent webkit is less picky and works anyway. */
+  overflow:hidden;
+
+  background:#aaa;
+  -webkit-border-radius:10px;
+  -moz-border-radius:10px;
+  -o-border-radius:10px;
+  border-radius:10px;
+  background:#e3e3e3;
+}
+
+#thelist {
+  list-style:none;
+  display:block;
+  float:left;
+  width:200%;
+  height:100%;
+  padding:0;
+  margin:0;
+  text-align:left;
+}
+
+#thelist > li {
+  -webkit-box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -o-box-sizing:border-box;
+  box-sizing:border-box;
+  display:block;
+  float:left;
+  width: 50%;
   height: 100%;
-  /*-webkit-transform:translate3d(0,0,0);*/
-}
-/*
-.stage-center {
-  top: 0;
-  left: 0;
-}
- 
-.stage-left {
-  left: -100%;
-}
- 
-.stage-right {
-  left: 100%;
-}
-*/
-.transition {
-  -moz-transition-duration: .375s;
-  -webkit-transition-duration: .375s;
-  -o-transition-duration: .375s;
-  transition-duration: .375s;
 }
 
 .header {
@@ -62,8 +72,6 @@ input {
   line-height: 44px;
   width: 100%;
   color: #fff;
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
   border-bottom: solid 1px #eee;
 }
 
@@ -81,10 +89,10 @@ input {
 }
 
 .header-button {
-  position: absolute;
-  top: 6px;
+  position: relative;
+  top: 0;
   padding: 7px 5px;
-  left: 6px;
+  left: 3px;
   line-height: 1em;
 }
 
@@ -129,7 +137,7 @@ input[type="search"]:focus {
   box-shadow: inset 0 4px 8px rgba(0,0,0,.5), 0 1px #fff;
 }
 
-ul {
+.scroll ul, .details ul {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -137,27 +145,13 @@ ul {
   border-bottom: 1px solid #e0e0e0;
 }
 
-li {
+.scroll ul {
+  width: 50%;
+}
+
+.scroll li, .details li {
   display: block;
   border-top: 1px solid #c0c0c0;
-  padding: 10px;
-}
-
-ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  background-color: #fff;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-li {
-  display: block;
-  border-top: 1px solid #e0e0e0;
-  padding: 10px;
-}
-
-li {
   padding: 0;
   display: -webkit-box;
   display: -moz-box;
@@ -165,7 +159,7 @@ li {
   width: 100%;
 }
 
-li > a {
+.scroll li > a, .details li > a {
   color: #000;
   display: block;
   padding: 5px;
@@ -186,22 +180,18 @@ li > a {
   background-size: 10px 100%;
 }
 
-li > a.tappable-active {
+.scroll li > a.tappable-active, .details li > a.tappable-active {
   color: #fff;
   background-color: #4286f5;
 }
 
-li > a * {
-  pointer-events: none;
-}
-
 .button {
-  /*-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+  -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
   -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
   box-shadow:inset 0px 1px 0px 0px #ffffff;
   background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
   background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');*/
+  /*filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');*/
   background-color:#ededed;
   -moz-border-radius:2px;
   -webkit-border-radius:2px;
@@ -217,9 +207,8 @@ li > a * {
 .button:hover {
   background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
   background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+  /*filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');*/
   background-color:#dfdfdf;
-
 }
 
 h1 {

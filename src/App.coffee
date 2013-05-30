@@ -9,7 +9,7 @@ class App
     else
       alert (if title then "#{title}: #{message}" else message)
 
-  constructor: ->
+  constructor: (onResize) ->
     @route = =>
       hash = window.location.hash
 
@@ -18,7 +18,7 @@ class App
         else
           @homePage = new HomeView(@store).render true
           @currentPage = @homePage
-          $('body').append @homePage.el
+          $('#thelist').append @homePage.el
         return
 
       match = hash.match App.detailsURL
@@ -32,7 +32,7 @@ class App
       event_begin = if touchable then 'touchstart' else 'mousedown'
       event_end = if touchable then 'touchend' else 'mouseup'
 
-      $body = $('body')
+      $body = $('#thelist')
       $body.on event_begin, 'a', (event) -> $(event.target).addClass tappable
       $body.on event_end, 'a', (event) -> $(event.target).removeClass tappable
       $(window).on 'hashchange', ($.proxy @route, @)
@@ -40,23 +40,7 @@ class App
     @registerEvents()
 
     @slidePage = (page, clear=false) =>
-      $el = $(page.el)
-      if page isnt @homePage
-        $el.css left: '100%'
-        $el.appendTo 'body'
-        $el.swipe
-          threshold: 0
-          swipe: (event, direction, distance, duration, fingers) =>
-            document.location.hash = '#' if direction is 'right'
-
-      options =
-        duration: 300
-        complete: =>
-          $('.page:not(.homePage)').remove() if clear
-          @currentPage = page
-
-      setTimeout ->
-        $('html,body').scrollTo $el, $el, animation:options
-      , 300
+      onResize $(page.el).appendTo '#thelist' if page isnt @homePage
+      onResize $('.page:not(.homePage)', '#thelist'), true if clear
 
     @store = new MemoryStore => @route()

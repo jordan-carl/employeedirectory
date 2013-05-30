@@ -1,14 +1,19 @@
 <!DOCTYPE HTML>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name='viewport' content='width=device-width'>
-    <meta http-equiv='X-UA-Compatible' content='chrome=1'>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- <meta http-equiv='X-UA-Compatible' content='chrome=1'> -->
     <title></title>
     <script src="css/source-sans-pro.js"></script>
     <link href="css/styles.css" rel="stylesheet">
   </head>
   <body>
+    <div id="wrapper">
+      <ul id="thelist"></ul>
+    </div>
     <script id="home-tpl" type="text/x-handlebars-template">
       <div class="header"><h1>Home</h1></div>
       <div class="search-bar"><input class="search-key" type="search"/></div>
@@ -41,9 +46,8 @@
     </script>
     <script src="phonegap.js"></script>
     <script src="lib/handlebars.js"></script>
+    <script src="lib/iscroll.js"></script>
     <script src="lib/jquery-2.0.1.min.js"></script>
-    <script src="lib/jquery.touchSwipe.min.js"></script>
-    <script src="lib/jquery.scrollto.js"></script>
     <script src="js/storage/memory-store.js"></script>
     <script src="js/HomeView.js"></script>
     <script src="js/App.js"></script>

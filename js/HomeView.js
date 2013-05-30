@@ -19,10 +19,11 @@ HomeView = (function() {
       _this.el.html(HomeView.template());
       return _this;
     };
-    this.el = $('<div class="homePage page" />').on('keyup', '.search-key', this.findByName);
+    this.el = $('<li class="page homePage" />').on('keyup', '.search-key', this.findByName);
     setTimeout(function() {
-      return $('.search-key', this.el).focus();
-    });
+      $('.search-key', _this.el).focus();
+      return _this.findByName();
+    }, 100);
   }
 
   return HomeView;

@@ -13,8 +13,9 @@ class HomeView
       @el.html HomeView.template()
       @
 
-    @el = $('<div class="homePage page" />')
-      .on 'keyup', '.search-key', @findByName
+    @el = $('<li class="page homePage" />').on 'keyup', '.search-key', @findByName
 
-    setTimeout ->
+    setTimeout =>
       $('.search-key', @el).focus()
+      @findByName()
+    , 100
