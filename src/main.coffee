@@ -1,6 +1,4 @@
 'use strict'
 
 $ ->
-  handler = ($el, clear=false) -> null
-
-  app = new App handler
+  app = new App ($el, clear=false) -> null

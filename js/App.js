@@ -61,7 +61,7 @@ App = (function() {
       vScroll: false,
       onScrollEnd: function() {
         if (this.page !== this.currPageX && this.currPageX === 0) {
-          window.location.hash = '#';
+          history.go(-1);
         }
         return this.page = this.currPageX;
       }

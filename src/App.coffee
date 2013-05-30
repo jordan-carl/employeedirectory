@@ -46,7 +46,7 @@ class App
       hScrollbar: false
       vScroll: false
       onScrollEnd: ->
-        window.location.hash = '#' if @page isnt @currPageX and @currPageX is 0
+        history.go -1 if @page isnt @currPageX and @currPageX is 0
         @page = @currPageX
 
     @scroller = new iScroll 'wrapper', options
