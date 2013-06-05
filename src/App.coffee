@@ -23,19 +23,18 @@ class App
         return
 
       match = hash.match App.detailsURL
-      if match
-        @store.findById (Number match[1]), (employee) =>
-          @slidePage new EmployeeView(employee).render()
+      if match then @store.findById (Number match[1]), (employee) =>
+        @slidePage new EmployeeView(employee).render()
 
-    @registerEvents =->
+    @registerEvents = ->
       tappable = 'tappable-active'
       touchable = document.documentElement.hasOwnProperty 'ontouchstart'
       event_begin = if touchable then 'touchstart' else 'mousedown'
       event_end = if touchable then 'touchend' else 'mouseup'
 
-      $body = $('#thelist')
-      $body.on event_begin, 'a', (event) -> $(event.target).addClass tappable
-      $body.on event_end, 'a', (event) -> $(event.target).removeClass tappable
+      $list = $('#thelist')
+      $list.on event_begin, 'a', (event) -> $(event.target).addClass tappable
+      $list.on event_end, 'a', (event) -> $(event.target).removeClass tappable
       $(window).on 'hashchange', ($.proxy @route, @)
 
     @registerEvents()
@@ -63,11 +62,11 @@ class App
         , ms else @scroller.enable()
 
         setTimeout ->
-          $('.scroll', '.homePage').css width: if clear then '100%' else '50%'
+          $('.scrolla', '.homePage').css width: if clear then '100%' else '50%'
         , if clear then 0 else ms
       , 0
 
-    @slidePage = (page, clear=false) =>
+    @slidePage = (page, clear=false) ->
       $el = $(page.el)
       @handle $el.appendTo '#thelist' if page isnt @homePage
       @handle $('.page:not(.homePage)', '#thelist'), true if clear

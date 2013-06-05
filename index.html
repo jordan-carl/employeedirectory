@@ -8,22 +8,63 @@
     <!-- <meta http-equiv='X-UA-Compatible' content='chrome=1'> -->
     <title></title>
     <script src="css/source-sans-pro.js"></script>
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
   </head>
   <body>
-    <div id="wrapper">
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">Project name</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div id="wrapper" class="container">
       <ul id="thelist"></ul>
     </div>
+    <script id="setting-tpl" type="text/x-handlebars-template">
+      <header>
+        <h1>{{name}}</h1>
+      </header>
+    </script>
+    <script id="menu-tpl" type="text/x-handlebars-template">
+      <nav></nav>
+    </script>
+    <script id="menu-item-tpl" type="text/x-handlebars-template">
+      {{#.}}
+      <a href='#settings/{{this.id}}'>{{this.title}}</a>
+      {{/.}}
+    </script>
     <script id="home-tpl" type="text/x-handlebars-template">
-      <div class="header"><h1>Home</h1></div>
+      <header><h1>Home</h1></header>
       <div class="search-bar"><input class="search-key" type="search"/></div>
       <div class="scroll"><ul class="employee-list"></ul></div>
     </script>
+    <script id="employee-li-tpl" type="text/x-handlebars-template">
+      {{#.}}
+      <li><a href='#employees/{{this.id}}'>{{this.firstName}} {{this.lastName}}<br />{{this.title}}</a></li>
+      {{/.}}
+    </script>
     <script id="employee-tpl" type="text/x-handlebars-template">
-      <div class="header">
+      <header>
         <a href="javascript:history.go(-1)" class="button header-button header-button-left">Back</a>
         <h1>Details</h1>
-      </div>
+      </header>
       <div class="details">
         <img src="img/{{firstName}}_{{lastName}}.jpg" alt="{{firstName}} {{lastName}}" class="employee-image" />
         <h1>{{firstName}} {{lastName}}</h1>
@@ -39,15 +80,26 @@
         </ul>
       </div>
     </script>
-    <script id="employee-li-tpl" type="text/x-handlebars-template">
-      {{#.}}
-      <li><a href='#employees/{{this.id}}'>{{this.firstName}} {{this.lastName}}<br />{{this.title}}</a></li>
-      {{/.}}
-    </script>
     <script src="phonegap.js"></script>
     <script src="lib/handlebars.js"></script>
     <script src="lib/iscroll.js"></script>
     <script src="lib/jquery-2.0.1.min.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
+    <!--
+    <script src="lib/bootstrap-affix.js"></script>
+    <script src="lib/bootstrap-alert.js"></script>
+    <script src="lib/bootstrap-button.js"></script>
+    <script src="lib/bootstrap-carousel.js"></script>
+    <script src="lib/bootstrap-collapse.js"></script>
+    <script src="lib/bootstrap-dropdown.js"></script>
+    <script src="lib/bootstrap-modal.js"></script>
+    <script src="lib/bootstrap-popover.js"></script>
+    <script src="lib/bootstrap-scrollspy.js"></script>
+    <script src="lib/bootstrap-tab.js"></script>
+    <script src="lib/bootstrap-tooltip.js"></script>
+    <script src="lib/bootstrap-transition.js"></script>
+    <script src="lib/bootstrap-typeahead.js"></script>
+    -->
     <script src="js/storage/memory-store.js"></script>
     <script src="js/HomeView.js"></script>
     <script src="js/App.js"></script>

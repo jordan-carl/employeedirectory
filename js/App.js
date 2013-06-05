@@ -39,16 +39,16 @@ App = (function() {
       }
     };
     this.registerEvents = function() {
-      var $body, event_begin, event_end, tappable, touchable;
+      var $list, event_begin, event_end, tappable, touchable;
       tappable = 'tappable-active';
       touchable = document.documentElement.hasOwnProperty('ontouchstart');
       event_begin = touchable ? 'touchstart' : 'mousedown';
       event_end = touchable ? 'touchend' : 'mouseup';
-      $body = $('#thelist');
-      $body.on(event_begin, 'a', function(event) {
+      $list = $('#thelist');
+      $list.on(event_begin, 'a', function(event) {
         return $(event.target).addClass(tappable);
       });
-      $body.on(event_end, 'a', function(event) {
+      $list.on(event_end, 'a', function(event) {
         return $(event.target).removeClass(tappable);
       });
       return $(window).on('hashchange', $.proxy(this.route, this));
@@ -98,11 +98,11 @@ App = (function() {
         clear = false;
       }
       $el = $(page.el);
-      if (page !== _this.homePage) {
-        _this.handle($el.appendTo('#thelist'));
+      if (page !== this.homePage) {
+        this.handle($el.appendTo('#thelist'));
       }
       if (clear) {
-        _this.handle($('.page:not(.homePage)', '#thelist'), true);
+        this.handle($('.page:not(.homePage)', '#thelist'), true);
       }
       return handler($el, clear);
     };
