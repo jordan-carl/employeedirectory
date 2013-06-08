@@ -17,12 +17,10 @@ $ ->
     if stop < navBarHeight then $wrapper.click closeLid
     else $wrapper.off()
 
-    if scrollTop > stop and stop isnt 0 then snap = 0
-    else  if scrollTop < stop and stop isnt navBarHeight then snap = navBarHeight
-
-    $.doTimeout 'scrolling', 150, -> $document.scrollTop snap
+    $.doTimeout 'scrolling', 150, ->
+      $document.scrollTop if (navBarHeight - stop) < stop then navBarHeight else 0
     scrollTop = stop
 
-  $document.scrollTop navBarHeight
   $document.on 'scroll', $body, on_scroll
+  $document.scrollTop navBarHeight
   app = new App ($el, clear=false) -> null

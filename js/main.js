@@ -13,25 +13,20 @@ $(function() {
     return e.preventDefault();
   };
   on_scroll = function() {
-    var snap, stop;
+    var stop;
     stop = $document.scrollTop();
     if (stop < navBarHeight) {
       $wrapper.click(closeLid);
     } else {
       $wrapper.off();
     }
-    if (scrollTop > stop && stop !== 0) {
-      snap = 0;
-    } else if (scrollTop < stop && stop !== navBarHeight) {
-      snap = navBarHeight;
-    }
     $.doTimeout('scrolling', 150, function() {
-      return $document.scrollTop(snap);
+      return $document.scrollTop((navBarHeight - stop) < stop ? navBarHeight : 0);
     });
     return scrollTop = stop;
   };
-  $document.scrollTop(navBarHeight);
   $document.on('scroll', $body, on_scroll);
+  $document.scrollTop(navBarHeight);
   return app = new App(function($el, clear) {
     if (clear == null) {
       clear = false;
