@@ -33,14 +33,15 @@ h2 {
 }
 
 header {
+  @size: 44px;
   background: #666;
-  -webkit-background-size: 1px 44px;
-  -moz-background-size: 1px 44px;
-  -ms-background-size: 1px 44px;
-  -o-background-size: 1px 44px;
-  background-size: 1px 44px;
-  height: 44px;
-  line-height: 44px;
+  -webkit-background-size: 1px ;
+  -moz-background-size: 1px @size;
+  -ms-background-size: 1px @size;
+  -o-background-size: 1px @size;
+  background-size: 1px @size;
+  height: @size;
+  line-height: @size;
   width: 100%;
   color: #fff;
   border-bottom: solid 1px #eee;
@@ -80,6 +81,28 @@ input {
   }
 }
 
+#thelist {
+  list-style: none;
+  display: block;
+  float: left;
+  width: 200%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+
+  & > li {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+    display: block;
+    float: left;
+    width: 50%;
+    height: 100%;
+  }
+}
+
 #wrapper {
   width:100%;
   height:100%;
@@ -95,28 +118,6 @@ input {
   -o-border-radius:10px;
   border-radius:10px;
   background:#e3e3e3;
-}
-
-#thelist {
-  list-style:none;
-  display:block;
-  float:left;
-  width:200%;
-  height:100%;
-  padding:0;
-  margin:0;
-  text-align:left;
-
-  & > li {
-    -webkit-box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    -o-box-sizing:border-box;
-    box-sizing:border-box;
-    display:block;
-    float:left;
-    width: 50%;
-    height: 100%;
-  }
 }
 
 .button {
