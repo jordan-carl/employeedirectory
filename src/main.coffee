@@ -6,12 +6,15 @@ $ ->
   $wrapper = $('#wrapper')
   navBarHeight = $('.navbar').first().height()
   scrollTop = 0
+  minHeight = 40
+
+  closeLid = (e) ->
+    $document.scrollTop navBarHeight
+    e.preventDefault()
 
   on_scroll =->
     stop = $document.scrollTop()
-    if stop < navBarHeight then $wrapper.click (e) =>
-      $document.scrollTop navBarHeight
-      e.preventDefault()
+    if stop < navBarHeight then $wrapper.click closeLid
     else $wrapper.off()
 
     if scrollTop > stop and stop isnt 0 then snap = 0
