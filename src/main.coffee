@@ -16,15 +16,18 @@ $ ->
 
   on_scroll =->
     stop = $document.scrollTop()
+
     if stop < navBarHeight
-      $wrapper.click closeLid
       app.scroller.disable()
+      $wrapper.click closeLid
+
     else
-      $wrapper.off()
+      $wrapper.off 'click'
       app.scroller.enable()
 
     $.doTimeout 'scrolling', 150, ->
       $document.scrollTop if (navBarHeight - stop) < stop then navBarHeight else 0
+
     scrollTop = stop
 
   $document.on 'scroll', $body, on_scroll

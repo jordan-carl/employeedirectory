@@ -22,10 +22,10 @@ $(function() {
     var stop;
     stop = $document.scrollTop();
     if (stop < navBarHeight) {
-      $wrapper.click(closeLid);
       app.scroller.disable();
+      $wrapper.click(closeLid);
     } else {
-      $wrapper.off();
+      $wrapper.off('click');
       app.scroller.enable();
     }
     $.doTimeout('scrolling', 150, function() {
