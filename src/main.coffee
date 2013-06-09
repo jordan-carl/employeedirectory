@@ -12,23 +12,15 @@ $ ->
     $document.scrollTop navBarHeight
     e.preventDefault()
 
-  app = new App ($el, clear=false) -> null
-
   on_scroll =->
     stop = $document.scrollTop()
-
-    if stop < navBarHeight
-      app.scroller.disable()
-      $wrapper.click closeLid
-
-    else
-      $wrapper.off 'click'
-      app.scroller.enable()
+    if stop < navBarHeight then $wrapper.mousedown closeLid
+    else $wrapper.off 'mousedown'
 
     $.doTimeout 'scrolling', 150, ->
       $document.scrollTop if (navBarHeight - stop) < stop then navBarHeight else 0
-
     scrollTop = stop
 
   $document.on 'scroll', $body, on_scroll
   $document.scrollTop navBarHeight
+  app = new App ($el, clear=false) -> null
