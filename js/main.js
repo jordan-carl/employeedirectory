@@ -12,13 +12,21 @@ $(function() {
     $document.scrollTop(navBarHeight);
     return e.preventDefault();
   };
+  app = new App(function($el, clear) {
+    if (clear == null) {
+      clear = false;
+    }
+    return null;
+  });
   on_scroll = function() {
     var stop;
     stop = $document.scrollTop();
     if (stop < navBarHeight) {
       $wrapper.click(closeLid);
+      app.scroller.disable();
     } else {
       $wrapper.off();
+      app.scroller.enable();
     }
     $.doTimeout('scrolling', 150, function() {
       return $document.scrollTop((navBarHeight - stop) < stop ? navBarHeight : 0);
@@ -26,11 +34,5 @@ $(function() {
     return scrollTop = stop;
   };
   $document.on('scroll', $body, on_scroll);
-  $document.scrollTop(navBarHeight);
-  return app = new App(function($el, clear) {
-    if (clear == null) {
-      clear = false;
-    }
-    return null;
-  });
+  return $document.scrollTop(navBarHeight);
 });

@@ -61,9 +61,13 @@ class App
           $el.remove()
         , ms else @scroller.enable()
 
-        setTimeout ->
-          $('.scrolla', '.homePage').css width: if clear then '100%' else '50%'
-        , if clear then 0 else ms
+        #setTimeout ->
+        #  $('.scroll', '.homePage').css width: if clear then '100%' else '50%'
+        #, if clear then 0 else ms
+
+        $.doTimeout 'resize', (if clear then 0 else ms), ->
+          $('.scroll', '.homePage').css width: if clear then '100%' else '50%'
+
       , 0
 
     @slidePage = (page, clear=false) ->

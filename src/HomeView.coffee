@@ -18,7 +18,11 @@ class HomeView
 
     @el = $('<li class="page homePage" />').on 'keyup', '.search-key', @findByName
 
-    setTimeout =>
+    #setTimeout =>
+    #  $('.search-key', @el).focus()
+    #  @findByName()
+    #, 100
+
+    $.doTimeout 100, =>
       $('.search-key', @el).focus()
       @findByName()
-    , 100
